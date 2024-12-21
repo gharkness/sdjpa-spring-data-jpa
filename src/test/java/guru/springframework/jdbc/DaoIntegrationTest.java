@@ -55,10 +55,10 @@ public class DaoIntegrationTest {
         book.setPublisher("Self");
         book.setTitle("my book");
 
-//        Author author = new Author();
-//        author.setId(3L);
+        Author author = new Author();
+        author.setId(3L);
 
-//        book.setAuthor(author);
+        book.setAuthorId(author.getId());
         Book saved = bookDao.saveNewBook(book);
 
         saved.setTitle("New Book");
@@ -76,10 +76,10 @@ public class DaoIntegrationTest {
         book.setPublisher("Self");
         book.setTitle("my book");
 
-//        Author author = new Author();
-//        author.setId(3L);
+        Author author = new Author();
+        author.setId(3L);
 
-//        book.setAuthor(author);
+        book.setAuthorId(author.getId());
         Book saved = bookDao.saveNewBook(book);
 
         assertThat(saved).isNotNull();
@@ -140,7 +140,7 @@ public class DaoIntegrationTest {
 
     @Test
     void testGetAuthorByName() {
-        Author author = authorDao.findAuthorByName("Craig", "Walls");
+        Author author = authorDao.findAuthorByName("Robert", "Martin");
 
         assertThat(author).isNotNull();
     }

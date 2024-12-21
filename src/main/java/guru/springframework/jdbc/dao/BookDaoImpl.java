@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -13,6 +14,16 @@ import java.util.Optional;
 public class BookDaoImpl implements BookDao {
 
     private final BookRepository bookRepository;
+
+    @Override
+    public List<Book> findAllBooks(int pageSize, int offset) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findAllBooks() {
+        return null;
+    }
 
     @Override
     public Book getById(Long id) {

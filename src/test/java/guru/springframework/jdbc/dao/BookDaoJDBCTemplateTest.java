@@ -11,6 +11,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,13 +27,45 @@ public class BookDaoJDBCTemplateTest {
     BookDao bookDao;
 
     @BeforeEach
-    void setup() {
+    void setUp() {
         bookDao = new BookDaoJDBCTemplate(jdbcTemplate);
     }
 
     @Test
+    void findAllBooksPage1() {
+        List<Book> books = bookDao.findAllBooks(10, 0);
+
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(10);
+    }
+
+    @Test
+    void findAllBooksPage2() {
+        List<Book> books = bookDao.findAllBooks(10, 10);
+
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(10);
+    }
+
+    @Test
+    void findAllBooksPage10() {
+        List<Book> books = bookDao.findAllBooks(10, 100);
+
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(10);
+    }
+
+    @Test
+    void testFindAllBooks() {
+        List<Book> books = bookDao.findAllBooks();
+
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isGreaterThan(4);
+    }
+
+    @Test
     void getById() {
-        Book book = bookDao.getById(3L);
+        Book book = bookDao.getById(6L);
 
         assertThat(book).isNotNull();
     }
@@ -49,7 +83,7 @@ public class BookDaoJDBCTemplateTest {
                 .isbn("1234")
                 .publisher("Self")
                 .title("my book")
-                .authorId(1L)
+                .authorId(3L)
                 .build();
 
         Book saved = bookDao.saveNewBook(book);
@@ -63,7 +97,7 @@ public class BookDaoJDBCTemplateTest {
                 .isbn("1234")
                 .publisher("Self")
                 .title("my book")
-                .authorId(1L)
+                .authorId(3L)
                 .build();
 
         Book saved = bookDao.saveNewBook(book);
@@ -82,7 +116,7 @@ public class BookDaoJDBCTemplateTest {
                 .isbn("1234")
                 .publisher("Self")
                 .title("my book")
-                .authorId(1L)
+                .authorId(3L)
                 .build();
 
         Book saved = bookDao.saveNewBook(book);
