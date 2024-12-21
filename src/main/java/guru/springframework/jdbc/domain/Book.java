@@ -1,10 +1,7 @@
 package guru.springframework.jdbc.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Objects;
 
@@ -14,6 +11,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Book {
 
     @Id
@@ -23,7 +21,7 @@ public class Book {
     private String title;
     private String isbn;
     private String publisher;
-//    private Long authorId;
+    private Long authorId;
 
     @Override
     public boolean equals(Object o) {
