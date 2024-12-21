@@ -10,11 +10,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("local")
 @DataJpaTest
@@ -25,6 +26,34 @@ public class BookRepositoryTest {
     BookRepository bookRepository;
 
     @Test
+    void testBookJPANamedQuery() {
+        Book book = bookRepository.jpaNamed("Clean Code");
+
+        assertThat(book).isNotNull();
+    }
+
+    @Test
+    void testBookQueryNative() {
+        Book book = bookRepository.findBookByTitleNativeQuery("Clean Code");
+
+        assertThat(book).isNotNull();
+    }
+
+    @Test
+    void testBookQueryNamed() {
+        Book book = bookRepository.findBookByTitleWithQueryNamed("Clean Code");
+
+        assertThat(book).isNotNull();
+    }
+
+    @Test
+    void testBookQuery() {
+        Book book = bookRepository.findBookByTitleWithQuery("Clean Code");
+
+        assertThat(book).isNotNull();
+    }
+
+    @Test
     void testBookStream() {
         AtomicInteger count = new AtomicInteger();
 
@@ -33,6 +62,15 @@ public class BookRepositoryTest {
         });
 
         assertThat(count.get()).isGreaterThan(4);
+    }
+
+    @Test
+    void testBookFuture() throws ExecutionException, InterruptedException {
+        Future<Book> bookFuture = bookRepository.queryByTitle("Clean Code");
+
+        Book book = bookFuture.get();
+
+        assertNotNull(book);
     }
 
     @Test
