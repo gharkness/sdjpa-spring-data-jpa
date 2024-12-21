@@ -1,3 +1,4 @@
+
 package guru.springframework.jdbc.repositories;
 
 import guru.springframework.jdbc.domain.Book;
@@ -15,7 +16,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Book jpaNamed(@Param("title") String title);
 
-    @Query(value = "SELECT * FROM book b where b.title = :title", nativeQuery = true)
+    @Query(value = "SELECT * FROM book WHERE title = :title", nativeQuery = true)
     Book findBookByTitleNativeQuery(@Param("title") String title);
 
     @Query("SELECT b FROM Book b where b.title = :title")

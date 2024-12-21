@@ -2,19 +2,30 @@ package guru.springframework.jdbc.dao;
 
 import guru.springframework.jdbc.domain.Author;
 import guru.springframework.jdbc.repositories.AuthorRepository;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import java.util.List;
 
 /**
  * Created by jt on 8/28/21.
  */
 @Component
-@AllArgsConstructor
 public class AuthorDaoImpl implements AuthorDao {
 
     private final AuthorRepository authorRepository;
+
+    public AuthorDaoImpl(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
+
+    @Override
+    public List<Author> findAllAuthorsByLastName(String lastname, Pageable pageable) {
+        return null;
+    }
 
     @Override
     public Author getById(Long id) {
@@ -23,7 +34,8 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author findAuthorByName(String firstName, String lastName) {
-        return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName).orElseThrow(EntityNotFoundException::new);
+        return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
@@ -31,14 +43,13 @@ public class AuthorDaoImpl implements AuthorDao {
         return authorRepository.save(author);
     }
 
-    @Override
     @Transactional
+    @Override
     public Author updateAuthor(Author author) {
-        Author found = authorRepository.getById(author.getId());
-        found.setFirstName(author.getFirstName());
-        found.setLastName(author.getLastName());
-
-        return authorRepository.save(found);
+        Author foundAuthor = authorRepository.getById(author.getId());
+        foundAuthor.setFirstName(author.getFirstName());
+        foundAuthor.setLastName(author.getLastName());
+        return authorRepository.save(foundAuthor);
     }
 
     @Override

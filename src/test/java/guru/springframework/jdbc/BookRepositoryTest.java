@@ -48,7 +48,7 @@ public class BookRepositoryTest {
 
     @Test
     void testBookQuery() {
-        Book book = bookRepository.findBookByTitleWithQuery("Design Patterns");
+        Book book = bookRepository.findBookByTitleWithQuery("Clean Code");
 
         assertThat(book).isNotNull();
     }

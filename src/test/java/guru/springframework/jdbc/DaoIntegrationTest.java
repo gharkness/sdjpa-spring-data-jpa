@@ -87,7 +87,7 @@ public class DaoIntegrationTest {
 
     @Test
     void testGetBookByName() {
-        Book book = bookDao.findByTitle("Clean Code");
+        Book book = bookDao.findBookByTitle("Clean Code");
 
         assertThat(book).isNotNull();
     }
